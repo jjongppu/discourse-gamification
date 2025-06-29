@@ -6,12 +6,17 @@ module ::DiscourseGamification
       SiteSetting.flag_created_score_value
     end
 
+    def self.reason
+      SiteSetting.flag_created_score_reason
+    end
+
     def self.query
       <<~SQL
         SELECT
           r.created_by_id AS user_id,
           date_trunc('day', r.created_at) AS date,
-          COUNT(*) * #{score_multiplier} AS points
+          COUNT(*) * #{score_multiplier} AS points,
+          :reason AS description
         FROM
           reviewables AS r
         WHERE

@@ -10,6 +10,7 @@ ko:
     gamification:
       score: "포인트"
       you: "사용자님"
+      attendance_awarded: "출석체크로 %{points} 포인트가 부여되었습니다"
       leaderboard:
         link_to_settings: "설정"
         refresh: "새로 고침"

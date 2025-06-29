@@ -11,7 +11,8 @@ module ::DiscourseGamification
         SELECT
           inv.invited_by_id AS user_id,
           date_trunc('day', inv.created_at) AS date,
-          SUM(inv.redemption_count * #{score_multiplier}) AS points
+          SUM(inv.redemption_count * #{score_multiplier}) AS points,
+          :reason AS description
         FROM
           invites AS inv
         WHERE
@@ -20,6 +21,10 @@ module ::DiscourseGamification
         GROUP BY
           1, 2
       SQL
+    end
+
+    def self.reason
+      SiteSetting.user_invited_score_reason
     end
   end
 end

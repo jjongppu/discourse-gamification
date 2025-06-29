@@ -11,11 +11,17 @@ module ::DiscourseGamification
     end
 
     def self.scorables_queries
-      enabled_scorables.map { "( #{_1.query} )" }.join(" UNION ALL ")
+      enabled_scorables
+        .map { |scorable| "( #{scorable.query} )" }
+        .join(" UNION ALL ")
     end
 
     def self.calculate_scores(since_date: Date.today, only_subclass: nil)
-      queries = only_subclass&.query || scorables_queries
+      scorables = only_subclass ? [only_subclass] : enabled_scorables
+
+      scorables.each do |scorable|
+        scorable.insert_events(since_date)
+      end
 
       DB.exec(<<~SQL, since: since_date)
         DELETE FROM gamification_scores
@@ -23,15 +29,8 @@ module ::DiscourseGamification
 
         INSERT INTO gamification_scores (user_id, date, score)
         SELECT user_id, date, SUM(points) AS score
-        FROM (
-          #{queries}
-          UNION ALL
-          SELECT user_id, date, SUM(points) AS points
-          FROM gamification_score_events
-          WHERE date >= :since
-          GROUP BY 1, 2
-        ) AS source
-        WHERE user_id IS NOT NULL
+        FROM gamification_score_events
+        WHERE date >= :since
         GROUP BY 1, 2
         ON CONFLICT (user_id, date) DO UPDATE
         SET score = EXCLUDED.score;

@@ -19,7 +19,8 @@ module ::DiscourseGamification
         SELECT
           t.user_id AS user_id,
           date_trunc('day', t.created_at) AS date,
-          COUNT(*) * #{score_multiplier} AS points
+          COUNT(*) * #{score_multiplier} AS points,
+          :reason AS description
         FROM
           topics AS t
         WHERE
@@ -30,6 +31,10 @@ module ::DiscourseGamification
         GROUP BY
           1, 2
       SQL
+    end
+
+    def self.reason
+      SiteSetting.topic_created_score_reason
     end
   end
 end

@@ -10,6 +10,7 @@ en:
     gamification:
       score: "Points"
       you: "You"
+      attendance_awarded: "You earned %{points} points for checking in today"
       leaderboard:
         title: "Leaderboards"
         info: "How does this work?"

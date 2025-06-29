@@ -18,7 +18,8 @@ module ::DiscourseGamification
         SELECT
           pa.user_id AS user_id,
           date_trunc('day', pa.created_at) AS date,
-          COUNT(*) * #{score_multiplier} AS points
+          COUNT(*) * #{score_multiplier} AS points,
+          :reason AS description
         FROM
           post_actions AS pa
         INNER JOIN posts AS p
@@ -35,6 +36,10 @@ module ::DiscourseGamification
         GROUP BY
           1, 2
       SQL
+    end
+
+    def self.reason
+      SiteSetting.like_given_score_reason
     end
   end
 end
