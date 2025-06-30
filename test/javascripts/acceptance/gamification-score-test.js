@@ -22,7 +22,7 @@ acceptance(
 
       assert
         .dom(".user-card .gamification-score")
-        .hasText("Cheers 10", "user card has gamification score");
+        .hasText("Points 10", "user card has gamification score");
     });
   }
 );

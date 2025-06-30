@@ -6,10 +6,11 @@ en:
           discourse_gamification: "Discourse Gamification"
   js:
     # directory column workaround
-    gamification_score: "Cheers"
+    gamification_score: "Points"
     gamification:
-      score: "Cheers"
+      score: "Points"
       you: "You"
+      attendance_awarded: "You earned %{points} points for checking in today"
       leaderboard:
         title: "Leaderboards"
         info: "How does this work?"

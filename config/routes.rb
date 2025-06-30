@@ -3,6 +3,7 @@
 DiscourseGamification::Engine.routes.draw do
   get "/" => "gamification_leaderboard#respond"
   get "/:id" => "gamification_leaderboard#respond"
+  get "/attendance" => "gamification_score_events#attendance"
 end
 
 Discourse::Application.routes.draw do

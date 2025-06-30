@@ -51,6 +51,7 @@ after_initialize do
   require_relative "lib/discourse_gamification/scorables/like_given"
   require_relative "lib/discourse_gamification/scorables/like_received"
   require_relative "lib/discourse_gamification/scorables/post_created"
+  require_relative "lib/discourse_gamification/scorables/first_reply_of_day"
   require_relative "lib/discourse_gamification/scorables/post_read"
   require_relative "lib/discourse_gamification/scorables/solutions"
   require_relative "lib/discourse_gamification/scorables/time_read"
@@ -64,10 +65,12 @@ after_initialize do
   require_relative "lib/discourse_gamification/scorables/chat_message_created"
   require_relative "lib/discourse_gamification/recalculate_scores_rate_limiter"
   require_relative "lib/discourse_gamification/leaderboard_cached_view"
+  require_relative "lib/discourse_gamification/event_hooks"
 
   reloadable_patch do |plugin|
     User.prepend(DiscourseGamification::UserExtension)
     Guardian.include(DiscourseGamification::GuardianExtension)
+    DiscourseGamification::EventHooks.attach
   end
 
   if respond_to?(:add_directory_column)

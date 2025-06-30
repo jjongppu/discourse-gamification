@@ -1,13 +1,13 @@
 # frozen_string_literal: true
+
 module ::DiscourseGamification
-  class ReactionReceived < Scorable
-    def self.enabled?
-      defined?(::DiscourseReactions) && SiteSetting.discourse_reactions_enabled &&
-        score_multiplier > 0
+  class FirstReplyOfDay < Scorable
+    def self.score_multiplier
+      SiteSetting.first_reply_of_day_score_value
     end
 
-    def self.score_multiplier
-      SiteSetting.reaction_received_score_value
+    def self.reason
+      SiteSetting.first_reply_of_day_score_reason
     end
 
     def self.category_filter
@@ -22,28 +22,26 @@ module ::DiscourseGamification
       <<~SQL
         SELECT
           p.user_id AS user_id,
-          date_trunc('day', reactions.created_at) AS date,
-          COUNT(*) * #{score_multiplier} AS points,
+          date_trunc('day', p.created_at) AS date,
+          #{score_multiplier} AS points,
           :reason AS description
         FROM
-        discourse_reactions_reaction_users AS reactions
-        INNER JOIN posts AS p
-          ON p.id = reactions.post_id
+          posts AS p
         INNER JOIN topics AS t
           ON t.id = p.topic_id
           #{category_filter}
         WHERE
           p.deleted_at IS NULL AND
+          t.deleted_at IS NULL AND
           t.archetype <> 'private_message' AND
+          p.post_number <> 1 AND
+          p.post_type = 1 AND
           p.wiki IS FALSE AND
-          reactions.created_at >= :since
+          p.hidden IS FALSE AND
+          p.created_at >= :since
         GROUP BY
           1, 2
       SQL
-    end
-
-    def self.reason
-      SiteSetting.reaction_received_score_reason
     end
   end
 end

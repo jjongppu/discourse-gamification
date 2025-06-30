@@ -14,7 +14,8 @@ module ::DiscourseGamification
         SELECT
           m.user_id,
           date_trunc('day', m.created_at) AS date,
-          COUNT(*) * #{score_multiplier} AS points
+          COUNT(*) * #{score_multiplier} AS points,
+          :reason AS description
         FROM
           chat_messages AS m
         JOIN
@@ -32,6 +33,10 @@ module ::DiscourseGamification
         GROUP BY
           m.user_id, date_trunc('day', m.created_at)
       SQL
+    end
+
+    def self.reason
+      SiteSetting.chat_message_created_score_reason
     end
   end
 end

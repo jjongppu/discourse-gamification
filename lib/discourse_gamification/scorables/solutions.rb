@@ -22,7 +22,8 @@ module ::DiscourseGamification
         SELECT
           posts.user_id AS user_id,
           date_trunc('day', dsst.updated_at) AS date,
-          COUNT(dsst.topic_id) * #{score_multiplier} AS points
+          COUNT(dsst.topic_id) * #{score_multiplier} AS points,
+          :reason AS description
         FROM
           discourse_solved_solved_topics dsst
         INNER JOIN topics
@@ -39,6 +40,10 @@ module ::DiscourseGamification
         GROUP BY
           1, 2
       SQL
+    end
+
+    def self.reason
+      SiteSetting.solution_score_reason
     end
   end
 end

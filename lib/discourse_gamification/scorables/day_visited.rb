@@ -6,12 +6,17 @@ module ::DiscourseGamification
       SiteSetting.day_visited_score_value
     end
 
+    def self.reason
+      SiteSetting.day_visited_score_reason
+    end
+
     def self.query
       <<~SQL
         SELECT
           uv.user_id AS user_id,
           date_trunc('day', uv.visited_at) AS date,
-          COUNT(*) * #{score_multiplier} AS points
+          COUNT(*) * #{score_multiplier} AS points,
+          :reason AS description
         FROM
           user_visits AS uv
         WHERE

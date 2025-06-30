@@ -6,6 +6,10 @@ module ::DiscourseGamification
       SiteSetting.post_created_score_value
     end
 
+    def self.reason
+      SiteSetting.post_created_score_reason
+    end
+
     def self.category_filter
       return "" if scorable_category_list.empty?
 
@@ -19,7 +23,8 @@ module ::DiscourseGamification
         SELECT
           p.user_id AS user_id,
           date_trunc('day', p.created_at) AS date,
-          COUNT(*) * #{score_multiplier} AS points
+          COUNT(*) * #{score_multiplier} AS points,
+          :reason AS description
         FROM
           posts AS p
         INNER JOIN topics AS t

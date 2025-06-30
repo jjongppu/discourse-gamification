@@ -7,34 +7,68 @@ discourse_gamification:
     default: ""
   like_received_score_value:
     default: 1
+  like_received_score_reason:
+    default: "Like received"
   like_given_score_value:
     default: 1
+  like_given_score_reason:
+    default: "Like given"
   solution_score_value:
     default: 10
+  solution_score_reason:
+    default: "Post accepted as solution"
   user_invited_score_value:
     default: 10
+  user_invited_score_reason:
+    default: "Invite redeemed"
   time_read_score_value:
     default: 1
+  time_read_score_reason:
+    default: "Time spent reading"
   post_read_score_value:
     default: 1
+  post_read_score_reason:
+    default: "Posts read"
   topic_created_score_value:
     default: 5
+  topic_created_score_reason:
+    default: "Topic created"
   post_created_score_value:
     default: 2
+  post_created_score_reason:
+    default: "Post created"
+  first_reply_of_day_score_value:
+    default: 1
+  first_reply_of_day_score_reason:
+    default: "First reply of the day"
   flag_created_score_value:
     default: 10
+  flag_created_score_reason:
+    default: "Accepted flag"
   day_visited_score_value:
     default: 1
+  day_visited_score_reason:
+    default: "Visited the site"
   reaction_received_score_value:
     default: 1
+  reaction_received_score_reason:
+    default: "Reaction received"
   reaction_given_score_value:
     default: 1
+  reaction_given_score_reason:
+    default: "Reaction given"
   chat_reaction_received_score_value:
     default: 1
+  chat_reaction_received_score_reason:
+    default: "Chat reaction received"
   chat_reaction_given_score_value:
     default: 1
+  chat_reaction_given_score_reason:
+    default: "Chat reaction given"
   chat_message_created_score_value:
     default: 1
+  chat_message_created_score_reason:
+    default: "Chat message created"
   score_ranking_strategy:
     default: dense_rank
     type: enum

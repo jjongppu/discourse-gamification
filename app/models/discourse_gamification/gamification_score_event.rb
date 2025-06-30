@@ -5,6 +5,21 @@ module ::DiscourseGamification
     self.table_name = "gamification_score_events"
 
     belongs_to :user
+
+    after_create :update_scores
+
+    private
+
+    def update_scores
+      DB.exec(<<~SQL, user_id: user_id, date: date, points: points)
+        INSERT INTO gamification_scores (user_id, date, score)
+        VALUES (:user_id, :date, :points)
+        ON CONFLICT (user_id, date) DO UPDATE
+        SET score = gamification_scores.score + EXCLUDED.score;
+      SQL
+
+      DiscourseGamification::LeaderboardCachedView.refresh_all
+    end
   end
 end
 
