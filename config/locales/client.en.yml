@@ -60,6 +60,7 @@ en:
       recalculate: "Recalculate scores"
       recalculating: "Recalculating scores..."
       completed: "Done! The scores have been successfully recalculated."
+      check_in_awarded: "You received %{points} points for checking in today"
       update_scores_help: "Update all scores for all leaderboards from"
       update_range:
         last_10_days: "Last 10 days"

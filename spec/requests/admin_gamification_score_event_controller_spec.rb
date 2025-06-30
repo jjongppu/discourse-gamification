@@ -14,18 +14,21 @@ RSpec.describe DiscourseGamification::AdminGamificationScoreEventController do
       user_id: current_user.id,
       date: Date.today,
       points: 7,
+      reason: "post_created",
     )
 
     score_events << DiscourseGamification::GamificationScoreEvent.create!(
       user_id: current_user.id,
       date: Date.yesterday,
       points: 17,
+      reason: "post_created",
     )
 
     score_events << DiscourseGamification::GamificationScoreEvent.create!(
       user_id: another_user.id,
       date: Date.yesterday,
       points: 27,
+      reason: "post_created",
     )
 
     DiscourseGamification::GamificationScore.calculate_scores(since_date: 10.days.ago.midnight)
@@ -73,6 +76,7 @@ RSpec.describe DiscourseGamification::AdminGamificationScoreEventController do
              points: 10,
              user_id: another_user.id,
              date: Date.today,
+             reason: "post_created",
            }
       expect(response.status).to eq(200)
 
@@ -89,6 +93,7 @@ RSpec.describe DiscourseGamification::AdminGamificationScoreEventController do
             points: 13,
             user_id: another_user.id,
             date: Date.yesterday,
+            reason: "post_created",
           }
       expect(response.status).to eq(200)
 

@@ -10,8 +10,10 @@ module ::DiscourseGamification
     after_commit :update_score, on: :update
     after_commit :decrement_score, on: :destroy
 
-    def self.record!(user_id:, points:, date: Date.today, description: nil)
-      create!(user_id: user_id, points: points, date: date, description: description)
+    validates :reason, presence: true
+
+    def self.record!(user_id:, points:, date: Date.today, reason:, description: nil)
+      create!(user_id: user_id, points: points, date: date, reason: reason, description: description)
     end
 
     private
@@ -42,6 +44,7 @@ end
 #  date        :date             not null
 #  points      :integer          not null
 #  description :text
+#  reason      :string           default("")
 #  created_at  :datetime         not null
 #  updated_at  :datetime         not null
 #

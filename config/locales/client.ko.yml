@@ -37,3 +37,4 @@ ko:
       custom_range_from: "보내는사람"
       admin:
         name: "이름"
+      check_in_awarded: "출석체크로 %{points} 포인트가 부여되었습니다"

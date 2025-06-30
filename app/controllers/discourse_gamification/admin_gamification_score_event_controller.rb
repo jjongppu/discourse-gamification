@@ -17,13 +17,14 @@ class DiscourseGamification::AdminGamificationScoreEventController < Admin::Admi
   end
 
   def create
-    params.require(%i[user_id date points])
+    params.require(%i[user_id date points reason])
     params.permit(:description)
 
     event = DiscourseGamification::GamificationScoreEvent.record!(
       user_id: params[:user_id],
       date: params[:date],
       points: params[:points],
+      reason: params[:reason],
       description: params[:description],
     )
 
@@ -31,13 +32,13 @@ class DiscourseGamification::AdminGamificationScoreEventController < Admin::Admi
   end
 
   def update
-    params.require(%i[id points])
+    params.require(%i[id points reason])
     params.permit(:description)
 
     event = DiscourseGamification::GamificationScoreEvent.find(params[:id])
     raise Discourse::NotFound unless event
 
-    if event.update(points: params[:points], description: params[:description] || event.description)
+    if event.update(points: params[:points], reason: params[:reason], description: params[:description] || event.description)
       render json: success_json
     else
       render_json_error(event)

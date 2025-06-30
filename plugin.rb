@@ -17,6 +17,7 @@ register_asset "stylesheets/common/leaderboard-info-modal.scss"
 register_asset "stylesheets/common/leaderboard-minimal.scss"
 register_asset "stylesheets/common/leaderboard-admin.scss"
 register_asset "stylesheets/common/gamification-score.scss"
+register_asset "javascripts/initializers/check-in.js"
 
 register_svg_icon "crown"
 register_svg_icon "award"
@@ -128,7 +129,7 @@ after_initialize do
         user_id: user.id,
         date: post.created_at.to_date,
         points: DiscourseGamification::PostCreated.score_multiplier,
-        description: "post_created"
+        reason: "post_created"
       )
     end
   end
@@ -141,7 +142,7 @@ after_initialize do
         user_id: post_action.user_id,
         date: post_action.created_at.to_date,
         points: DiscourseGamification::LikeGiven.score_multiplier,
-        description: "like_given"
+        reason: "like_given"
       )
     end
 
@@ -150,7 +151,7 @@ after_initialize do
         user_id: post_action.post.user_id,
         date: post_action.created_at.to_date,
         points: DiscourseGamification::LikeReceived.score_multiplier,
-        description: "like_received"
+        reason: "like_received"
       )
     end
   end
@@ -163,7 +164,7 @@ after_initialize do
         user_id: post_action.user_id,
         date: post_action.created_at.to_date,
         points: -DiscourseGamification::LikeGiven.score_multiplier,
-        description: "like_removed"
+        reason: "like_removed"
       )
     end
 
@@ -172,7 +173,7 @@ after_initialize do
         user_id: post_action.post.user_id,
         date: post_action.created_at.to_date,
         points: -DiscourseGamification::LikeReceived.score_multiplier,
-        description: "like_removed"
+        reason: "like_removed"
       )
     end
   end

@@ -42,3 +42,7 @@ Discourse::Application.routes.draw do
         "discourse_gamification/admin_gamification_score_event#update",
       :constraints => StaffConstraint.new
 end
+
+Discourse::Application.routes.draw do
+  post "/gamification/check-in" => "discourse_gamification/check_ins#create"
+end
