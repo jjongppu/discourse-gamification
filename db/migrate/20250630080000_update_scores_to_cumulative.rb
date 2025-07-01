@@ -30,13 +30,14 @@ class UpdateScoresToCumulative < ActiveRecord::Migration[7.0]
 
     add_index :gamification_scores, :user_id, unique: true
 
+    execute "DELETE FROM gamification_scores"
+
     execute <<~SQL
       WITH summed AS (
         SELECT user_id, SUM(score) AS score
         FROM gamification_scores
         GROUP BY 1
       )
-      DELETE FROM gamification_scores;
       INSERT INTO gamification_scores (user_id, score, date)
       SELECT user_id, score, CURRENT_DATE FROM summed;
     SQL
