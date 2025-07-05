@@ -11,5 +11,7 @@ export default {
         this.route("show", { path: "/:id" });
       }
     );
+
+    this.route("discourse-gamification-score-events", { path: "score-events" });
   },
 };

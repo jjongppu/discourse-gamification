@@ -15,6 +15,10 @@ export default {
           label: "gamification.leaderboard.title",
           route: "adminPlugins.show.discourse-gamification-leaderboards",
         },
+        {
+          label: "gamification.admin.score_event_title",
+          route: "adminPlugins.show.discourse-gamification-score-events",
+        },
       ]);
     });
   },
