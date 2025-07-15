@@ -382,4 +382,36 @@ after_initialize do
       )
     end
   end
+
+  on(:post_destroyed) do |post, opts, user|
+    category_id = post.topic.category_id
+
+    if post.topic.try(:accepted_answer_post_id) == post.id
+      if SiteSetting.accepted_solution_event_score_value.to_i > 0 &&
+           DiscourseGamification.category_allowed?(category_id, SiteSetting.accepted_solution_event_categories)
+        DiscourseGamification::GamificationScoreEvent.record!(
+          user_id: post.user_id,
+          date: Time.zone.now.to_date,
+          points: -SiteSetting.accepted_solution_event_score_value,
+          reason: "accepted_solution_removed",
+          description: "게시글 삭제로 인한 포인트 회수",
+          related_id: post.topic_id,
+          related_type: "topic",
+        )
+      end
+
+      if SiteSetting.accepted_solution_topic_event_score_value.to_i > 0 &&
+           DiscourseGamification.category_allowed?(category_id, SiteSetting.accepted_solution_topic_event_categories)
+        DiscourseGamification::GamificationScoreEvent.record!(
+          user_id: post.topic.user_id,
+          date: Time.zone.now.to_date,
+          points: -SiteSetting.accepted_solution_topic_event_score_value,
+          reason: "accepted_solution_topic_removed",
+          description: "게시글 삭제로 인한 포인트 회수",
+          related_id: post.topic_id,
+          related_type: "topic",
+        )
+      end
+    end
+  end
 end
